@@ -1,0 +1,45 @@
+services:
+  # ── Bot + API Server ──────────────────────────────────────────────────────
+  # Runs the Telegram bot (Python) and API server (Node.js) in one service.
+  # They share the same filesystem so /tmp/bot_stats.json works correctly.
+  - type: web
+    name: facebook-bot-api
+    runtime: node
+    region: singapore
+    plan: free
+    buildCommand: >-
+      npm install -g pnpm --silent &&
+      pnpm install --frozen-lockfile &&
+      pip install -r bot/requirements.txt &&
+      pnpm --filter @workspace/api-server run build
+    startCommand: bash start_production.sh
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: NODE_ENV
+        value: production
+      - key: PYTHONUNBUFFERED
+        value: "1"
+
+  # ── Dashboard (Static Site) ───────────────────────────────────────────────
+  # Set VITE_API_BASE_URL to your API service URL after first deploy.
+  # Example: https://facebook-bot-api.onrender.com
+  - type: web
+    name: facebook-bot-dashboard
+    runtime: static
+    region: singapore
+    plan: free
+    buildCommand: >-
+      npm install -g pnpm --silent &&
+      pnpm install --frozen-lockfile &&
+      pnpm --filter @workspace/bot-dashboard run build
+    staticPublishPath: artifacts/bot-dashboard/dist/public
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
