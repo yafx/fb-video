@@ -1,0 +1,10 @@
+Configure the project for deployment on Render platform
+
+Update Vite configuration, startup scripts, and add a Render configuration file to enable deployment on the Render platform, including setting environment variables for API base URL and port.
+
+Replit-Commit-Author: Agent
+Replit-Commit-Session-Id: 548f4916-25cd-44e6-af2b-77b3c6f9e2fa
+Replit-Commit-Checkpoint-Type: full_checkpoint
+Replit-Commit-Event-Id: 126171ee-9a39-4360-82ec-ee592ebc2aea
+Replit-Commit-Screenshot-Url: https://storage.googleapis.com/screenshot-production-us-central1/91279862-27c9-4f0c-b0ce-8d362a5d0b23/548f4916-25cd-44e6-af2b-77b3c6f9e2fa/ovupow3
+Replit-Helium-Checkpoint-Created: true
